@@ -55,3 +55,10 @@ class TestApp:
 		res = client.get(url_for('items_index'))
 		assert res.status_code == 200
 	#User View End
+	
+	# Paytm Start
+	def test_selectpayment(self, client):
+		# https://github.com/pytest-dev/pytest-flask/issues/7
+		res = client.get(url_for('selectpayment'))
+		assert res.status_code == 200
+	# Paytm End 
