@@ -1,6 +1,4 @@
 import sys
-sys.path.append("..")
-
 import pytest
 from flaskr.app import create_app
 
