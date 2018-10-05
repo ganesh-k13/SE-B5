@@ -1,42 +1,46 @@
+import os, sys
+sys.path.append(os.path.dirname(__file__))
+
 from flask import Flask, render_template, request, redirect
-import db
+import db_utils
 from werkzeug.datastructures import ImmutableMultiDict
 import sqlite3
-# import Checksum
+import Checksum
 import requests
 
+CURR_PATH = os.path.dirname(__file__)
 
 def create_app():
 	
 	app = Flask(__name__)
 	
-	# @app.route('/selectpayment/')
-	# def selectpayment():
-		# return render_template('payment/payment.html')
+	@app.route('/selectpayment/')
+	def selectpayment():
+		return render_template('payment/payment.html')
 
-	# @app.route('/payment/',methods=['POST','GET'])
-	# def payment():
-		# if request.method=='POST':
-			# MERCHANT_KEY = 'tG89dKDNQQWsrWjO';
-			# data_dict = {
-				# 'MID':'SEB5St30591402404816',
-				# 'ORDER_ID':'seb5336',
-				# 'TXN_AMOUNT':request.form['TXN_AMOUNT'],
-				# 'CUST_ID':request.form['CUST_ID'],
-				# 'INDUSTRY_TYPE_ID':'Retail',
-				# 'WEBSITE':'WEBSTAGING',
-				# 'CHANNEL_ID':'WEB',
-			# }
-			# param_dict = data_dict  
-			# param_dict['CHECKSUMHASH'] =Checksum.generate_checksum(data_dict, MERCHANT_KEY)
-			# return render_template('payment/redirect.html',data=param_dict)
+	@app.route('/payment/',methods=['POST','GET'])
+	def payment():
+		if request.method=='POST':
+			MERCHANT_KEY = 'tG89dKDNQQWsrWjO';
+			data_dict = {
+				'MID':'SEB5St30591402404816',
+				'ORDER_ID':'seb5336',
+				'TXN_AMOUNT':request.form['TXN_AMOUNT'],
+				'CUST_ID':request.form['CUST_ID'],
+				'INDUSTRY_TYPE_ID':'Retail',
+				'WEBSITE':'WEBSTAGING',
+				'CHANNEL_ID':'WEB',
+			}
+			param_dict = data_dict  
+			param_dict['CHECKSUMHASH'] =Checksum.generate_checksum(data_dict, MERCHANT_KEY)
+			return render_template('payment/redirect.html',data=param_dict)
 
-	# @app.route('/payment.status/',methods=['POST','GET'])
-	# def status():
-		# if request.method=='POST':
-			# return 'Done'
-		# if request.method=='GET':
-			# return 'Done'
+	@app.route('/payment.status/',methods=['POST','GET'])
+	def status():
+		if request.method=='POST':
+			return 'Done'
+		if request.method=='GET':
+			return 'Done'
 
 	@app.route('/typography.html')
 	def typography():
@@ -85,11 +89,10 @@ def create_app():
 	@app.route('/items')
 	def items_index():
 		#table_name = 'Items'
-		dbase = db.get_conn('data/canteen.db')
-		return render_template('canteen-items/index.html', data = db.get_items('Items', dbase))
+		dbase = db_utils.get_conn(os.path.join(CURR_PATH, 'data/canteen.db'))
+		return render_template('canteen-items/index.html', data = db_utils.get_items('Items', dbase))
 	
 	return app
 if __name__ == "__main__":
 	app = create_app()
-	app.run(port=5000)
-
+	app.run(debug=True, port=5000)
