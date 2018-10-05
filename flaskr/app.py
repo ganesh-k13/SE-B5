@@ -1,12 +1,9 @@
 import os, sys
-sys.path.append(os.path.dirname(__file__))
-sys.path.append(os.path.abspath(__file__))
-
 from flask import Flask, render_template, request, redirect
-import db_utils
+import flaskr.db_utils as db_utils
 from werkzeug.datastructures import ImmutableMultiDict
 import sqlite3
-import Checksum
+import flaskr.Checksum as Checksum
 import requests
 
 CURR_PATH = os.path.dirname(__file__)
@@ -94,7 +91,7 @@ def create_app():
 		return render_template('canteen-items/index.html', data = db_utils.get_items('Items', dbase))
 	
 	return app
-	
+
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))
 	print(os.path.dirpath(__file__))
