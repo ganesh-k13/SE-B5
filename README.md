@@ -1,6 +1,7 @@
 # 7th Sem Software-Engineering Project #
 
-[![Build Status](https://travis-ci.org/ganesh-k13/SE-B5.svg?branch=master)](https://travis-ci.org/ganesh-k13/SE-B5)
+[![Build Status](https://travis-ci.org/ganesh-k13/SE-B5.svg?branch=master)](https://travis-ci.org/ganesh-k13/SE-B5) [![licensebuttons by-sa](https://licensebuttons.net/l/by-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0)
+
 
 ### How to contribute to the project: ###
 
