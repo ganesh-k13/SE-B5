@@ -42,13 +42,14 @@ def set_menu_for_day():
 		data=request.get_json()
 		return jsonify(update_menu_for_day("Items","canteen",session['Owner_id'],data))
 
+
 @canteen.route('/customer_form')
 def customer_form():
-	return render_template('customer/customer_form.html')
+	return render_template('customer/customer.html.html')
 
 @canteen.route('/owner_form')
 def owner_form():
-	return render_template('canteen_owner/owner_form.html')
+	return render_template('canteen_owner/canteen_owner.html.html')
 
 @canteen.route('customer/customer_form_submit',methods=['POST'])
 @csrf.exempt
@@ -61,7 +62,7 @@ def parse_customer_form():
 	data['Social_id'] = session['social_id'] #110058041200100630475
 	data['Email'] = session['email_address']
 	session['User_id'] = insert_customer('canteen', data)
-	return str(session)
+	return redirect(url_for('canteen.customer_owner_index'))
 
 @canteen.route('/owner_form_submit',methods=['POST'])
 @csrf.exempt
@@ -72,7 +73,7 @@ def parse_owner_form():
 	data['Email'] = session['email_address']
 	data['Canteen_name'] = request.form['canteen_name']
 	session['Owner_id'] = insert_owner('canteen', data)
-	return str(session)
+	return redirect(url_for('canteen.canteen_owner_owner_index'))
 
 @canteen.route('/selectpayment/<cost>')
 def selectpayment(cost):

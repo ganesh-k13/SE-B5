@@ -164,11 +164,11 @@ input {
 <form class="signUp" id="customer_form" name="customer_form" method="POST" action="{{ url_for('.parse_customer_form') }}" >
      <h1 class="signUpTitle">Fill In The Details</h1>
       <h3> Gender</h3>
-     <input type="text" class="signUpInput" placeholder="Gender" autofocus required>
+     <input type="text" class="signUpInput" name="gender" value="Male" autofocus required>
      <h3> Semester </h3>
-   <input type="text" class="signUpInput" name="semester" value="Mouse" autofocus required>
+   <input type="text" class="signUpInput" name="semester" value="VII" autofocus required>
      <h3> Department </h3>
-   <input type="text" class="signUpInput" name="department" value="Mouse" autofocus required>
+   <input type="text" class="signUpInput" name="department" value="CSE" autofocus required>
 
     <input type="submit" value="Submit" class="signUpButton">
   </form>
