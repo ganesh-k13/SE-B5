@@ -1,0 +1,45 @@
+<html>
+<head>
+
+<style type="text/css">
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  background-color: #000;
+  color: #fff;
+}
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+canvas {
+  width: 200px;
+  height: 200px;
+}
+
+</style>
+</head>
+
+<body>
+<div>
+
+  <h1>Scan The QR Code</h1>
+
+
+  <h2>{{data.id}}</h2>
+
+  <img src="https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0"
+       class="qr-code img-thumbnail img-responsive">
+  <canvas id="qr"></canvas>
+</div>
+
+
+</body>
+</html>
