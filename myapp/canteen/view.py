@@ -326,8 +326,8 @@ def customer_elements():
 
 @canteen.route('/customer/index.html')
 def customer_owner_index():
-	#if(session.get('user_type')!="customer"):
-	#	return redirect(url_for('oauth2.signin_customer'))
+	if(session.get('user_type')!="customer"):
+		return redirect(url_for('oauth2.signin_customer'))
 	return render_template('customer/index.html')
 
 @canteen.route('/')
