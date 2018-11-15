@@ -25,6 +25,15 @@ import string
 from io import BytesIO
 from .recommendation import recommend
 
+@canteen.route('/loginhack')
+def loginhack():
+	owner=request.args.get('owner')
+	session['Owner_id']=owner
+	return 'Success'
+
+@canteen.route('/canteen_owner/owner_index')
+def owner_index():
+	return jsonify(get_owner_index('canteen',session['Owner_id']))
 
 #route to fetch menu for the day
 @canteen.route('canteen_owner/menu_for_day')
@@ -229,7 +238,7 @@ def canteen_owner_elements():
 def canteen_owner_owner_index():
 	if(session.get('user_type')!="owner"):
 		return redirect(url_for('oauth2.signin_owner'))
-	return render_template('canteen_owner/index.html')
+	return render_template('canteen_owner/index.html',data=get_owner_index('canteen',session['Owner_id']))
 
 """@canteen.route('/customer/items')
 def items_index():
@@ -317,8 +326,8 @@ def customer_elements():
 
 @canteen.route('/customer/index.html')
 def customer_owner_index():
-	if(session.get('user_type')!="customer"):
-		return redirect(url_for('oauth2.signin_customer'))
+	#if(session.get('user_type')!="customer"):
+	#	return redirect(url_for('oauth2.signin_customer'))
 	return render_template('customer/index.html')
 
 @canteen.route('/')
