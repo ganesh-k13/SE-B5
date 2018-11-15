@@ -441,6 +441,8 @@ def update_order_complete(db_name, transaction_id):
 
 	cursor.execute("update Transactions set Status=1 where Transaction_id=%d"%transaction_id)
 	conn.commit()
+	cursor.execute("update Purchases set Status=1 where Purchase_basket_id=%d"%transaction_id)
+	conn.commit()
 #067
 def get_users(db_name):
 	conn = mysql.connector.connect(
