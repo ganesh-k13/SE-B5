@@ -4,6 +4,50 @@ from datetime import date
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
+def get_orders_per_item(db_name,owner_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	cursor.execute('SELECT I.Items_name,(SELECT COUNT(*) FROM Purchases P WHERE P.Item_id=I.Items_id ) AS Orders,(SELECT COUNT(*) FROM Purchases P WHERE P.Item_id=I.Items_id AND P.Status=1) AS Completed FROM Items I WHERE I.Canteen_id IN(SELECT Canteen_id FROM Canteen WHERE Owner_id=%s)' %(owner_id))
+	return cursor.fetchall()
+
+def get_customer_index(db_name,user_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	data=dict()
+
+	cursor.execute('SELECT Count(DISTINCT Purchase_basket_id) AS torders FROM Purchases WHERE User_id=%s' %(user_id))
+	result=cursor.fetchone()
+	data['torders']=result['torders']
+
+	cursor.execute('SELECT SUM(Transaction_amount) AS total FROM Transactions WHERE Transaction_id IN (SELECT Purchase_basket_id FROM Purchases WHERE User_id=%s)' %(user_id))
+	result=cursor.fetchone()
+	data['total']=result['total']
+
+	cursor.execute('SELECT Count(*) AS Orders,WEEKDAY(Transaction_timestamp) AS Days FROM Transactions WHERE Transaction_id IN (SELECT Purchase_basket_id FROM Purchases WHERE User_id=%s) GROUP BY(Transaction_timestamp)' %(user_id))
+	result=cursor.fetchall()
+	data['g2']=result
+
+	cursor.execute('SELECT SUM(Transaction_amount) AS total,WEEKDAY(Transaction_timestamp) AS Days FROM Transactions WHERE Transaction_id IN (SELECT Purchase_basket_id FROM Purchases WHERE User_id=%s) GROUP BY(Transaction_timestamp)' %(user_id))
+	result=cursor.fetchall()
+	data['g1']=result
+
+	cursor.execute('SELECT P.Purchase_basket_id, I.Items_name, I.Price,T.Transaction_timestamp,P.Status FROM Purchases P JOIN Transactions T ON P.Purchase_basket_id=T.Transaction_id JOIN Items I ON P.Item_id=I.Items_id WHERE P.User_id=%s ORDER BY(T.Transaction_timestamp) DESC' %(user_id))
+	result=cursor.fetchall()
+	data['purchase']=result
+
+	return data
+
+
 def get_owner_index(db_name,owner_id):
 	conn = mysql.connector.connect(
 				host="localhost",
